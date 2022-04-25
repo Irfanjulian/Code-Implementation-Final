@@ -1,6 +1,6 @@
 const pijarFood = (harga, voucher, jarak, pajak) => {
   // Pengkondisian mencari voucher diskon.
-  let potongan = "";
+  let potongan = 0;
   if (voucher === "pijarFood5" && harga > 50000) {
     potongan = harga * 0.5;
     if (potongan > 50000) {
@@ -12,36 +12,37 @@ const pijarFood = (harga, voucher, jarak, pajak) => {
       potongan = 25000;
     }
   } else {
-    console.log("Tidak ada diskon");
+    potongan = ("Tidak ada diskon");
   }
 
   // Pengkondisian Biaya Pengiriman
-  let ongkosKirim = ''
-  for(let i = 1; i <= 2; i++){
-      for(let j = i; j <= jarak-2; j++){
-          ongkosKirim = ((i * 5000)+(j * 3000));
-      }
+  let ongkosKirim;
+    if(typeof jarak === 'number'){  
+      ongkosKirim = ((jarak - 2) * 3000 + 5000);
+  } else {
+    ongkosKirim = (`Anda tidak memasukan jarak dengan benar`);
   }
 
+
   // Pengkondisian Pajak
-  let bayarPajak = "";
+  let bayarPajak;
   if (pajak === true) {
-    bayarPajak = (harga - potongan + biayaKirim) * 0.05;
+    bayarPajak = (harga - potongan + ongkosKirim) * 0.05;
   } else if(pajak === false){
     bayarPajak = 0;
   } else {
-      console.log('Data tidak sesuai');
+      bayarPajak = ('Ada data yang tidak sesuai');
   }
 
   let result = `
-  Harga = ${harga}
-  Potongan Diskon = ${potongan}
-  Biaya Pengirimgan = ${ongkosKirim}
-  Biaya Pajak = ${bayarPajak}
-  Total Harga = ${harga + ongkosKirim + bayarPajak - potongan}
+  Harga             = ${harga}
+  Potongan Diskon   = ${potongan}
+  Biaya Pengiringan = ${ongkosKirim}
+  Biaya Pajak       = ${bayarPajak}
+  -------------------------------------
+  Total Harga       = ${harga + ongkosKirim + bayarPajak - potongan}
   `
-
   console.log(result);
+}
 
-};
-pijarFood(400000, "pijarFood5", 12, false);
+pijarFood(89000, "diTeraktirPijar", 'abc', true);
